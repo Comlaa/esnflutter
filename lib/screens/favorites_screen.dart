@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:esnflutter/models/article-lite.dart';
 import 'package:esnflutter/widgets/article_widget.dart';
-import 'package:flutter/material.dart';¸1
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Widget>> getArticles() async {
