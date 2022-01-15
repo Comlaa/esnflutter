@@ -22,7 +22,7 @@ Future<List<Widget>> getArticles() async {
     }
     return articles;
   } else {
-    throw Exception('Failed to load articles.');
+    throw Exception('Greška prilikom učitavanja članaka.');
   }
 }
 
@@ -47,7 +47,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       body: Container(
         padding: EdgeInsets.only(top: 45, bottom: 25),
         width: double.infinity,
-        child: Center(
+        child: Container(
           child: FutureBuilder<List<Widget>>(
             future: articles,
             builder: (
@@ -64,7 +64,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return const Text('Error');
+                  return const Text('Greška prilikom učitavanja članaka.');
                 } else if (snapshot.hasData) {
                   return SingleChildScrollView(
                       child: Column(
@@ -74,7 +74,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     ],
                   ));
                 } else {
-                  throw Exception('Failed to display articles.');
+                  throw Exception('Greška prilikom učitavanja članaka.');
                 }
               } else {
                 throw Exception('State: ${snapshot.connectionState}');
