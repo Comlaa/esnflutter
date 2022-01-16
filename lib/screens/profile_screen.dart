@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'package:esnflutter/models/article.dart';
 import 'package:esnflutter/models/user_data.dart';
-import 'package:esnflutter/widgets/article_widget.dart';
 import 'package:esnflutter/widgets/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

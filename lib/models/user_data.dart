@@ -1,5 +1,3 @@
-import 'package:esnflutter/models/article_comments.dart';
-
 class UserData {
   final String name;
   final String username;

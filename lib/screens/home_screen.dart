@@ -6,7 +6,6 @@ import 'package:esnflutter/screens/saved_screen.dart';
 import 'package:esnflutter/screens/settings_screen.dart';
 import 'package:esnflutter/screens/signup_screen.dart';
 import 'package:esnflutter/screens/suggested_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
