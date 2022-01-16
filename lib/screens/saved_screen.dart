@@ -1,20 +1,34 @@
 import 'dart:convert';
-import 'package:esnflutter/models/article-lite.dart';
+import 'package:esnflutter/models/article.dart';
 import 'package:esnflutter/widgets/article_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<List<Widget>> getArticles() async {
-  final response = await http
-      .get(Uri.parse('https://10.0.2.2:8012/Article/saved-articles?userId=3'));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userId = await prefs.getInt('id');
+  final response = await http.get(Uri.parse(
+      'https://10.0.2.2:8012/Article/saved-articles?userId=' +
+          userId.toString()));
 
   var responseList = jsonDecode(response.body);
   List<Widget> articles = [];
   if (response.statusCode == 200) {
     for (var article in responseList) {
-      var loadedArticle = ArticleLite.fromJson(article);
-      articles.add(ArticleWidget(loadedArticle.title, loadedArticle.picture,
-          loadedArticle.favorite, loadedArticle.saved));
+      var loadedArticle = Article.fromJson(article);
+      articles.add(ArticleWidget(
+          loadedArticle.id,
+          loadedArticle.title,
+          loadedArticle.text,
+          loadedArticle.tags,
+          loadedArticle.category,
+          loadedArticle.articleComments,
+          loadedArticle.articleRating,
+          loadedArticle.comments,
+          loadedArticle.picture,
+          loadedArticle.favorite,
+          loadedArticle.saved));
     }
     return articles;
   } else {
@@ -65,7 +79,14 @@ class _SavedScreenState extends State<SavedScreen> {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
-                      Text("Omiljeni članci"),
+                      Text(
+                        "Snimljeni članci",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600),
+                      ),
                       Column(children: snapshot.data!),
                     ],
                   ));
