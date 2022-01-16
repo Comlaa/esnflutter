@@ -17,6 +17,7 @@ Future<List<Widget>> getArticles() async {
     for (var article in responseList) {
       var loadedArticle = Article.fromJson(article);
       articles.add(ArticleWidget(
+          loadedArticle.id,
           loadedArticle.title,
           loadedArticle.text,
           loadedArticle.tags,
@@ -54,7 +55,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.only(top: 35, bottom: 25),
+        padding: EdgeInsets.only(top: 55, bottom: 25),
         width: double.infinity,
         child: Container(
           child: FutureBuilder<List<Widget>>(

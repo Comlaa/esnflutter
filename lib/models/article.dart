@@ -1,4 +1,5 @@
 class Article {
+  final int id;
   final String title;
   final String text;
   final String tags;
@@ -11,7 +12,8 @@ class Article {
   bool saved;
 
   Article(
-      {required this.title,
+      {required this.id,
+      required this.title,
       required this.text,
       required this.tags,
       required this.category,
@@ -23,7 +25,8 @@ class Article {
       required this.saved});
 
   Article.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
+      : id = json['id'],
+        title = json['title'],
         text = json['text'],
         tags = json['tags'],
         category = json['category'],

@@ -2,10 +2,12 @@ import 'package:esnflutter/screens/article_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> updateFavorites(
-    int articleId, int userId, bool favorite, bool saved) {
-  return http.put(
+Future<void> updateFavorites(int articleId, bool favorite, bool saved) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userId = await prefs.getInt('id');
+  http.put(
     Uri.parse('https://10.0.2.2:8012/Article/article-favorites'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
@@ -20,6 +22,7 @@ Future<void> updateFavorites(
 }
 
 class ArticleWidget extends StatefulWidget {
+  final int id;
   final String title;
   final String text;
   final String tags;
@@ -32,6 +35,7 @@ class ArticleWidget extends StatefulWidget {
   bool saved;
 
   ArticleWidget(
+      this.id,
       this.title,
       this.text,
       this.tags,
@@ -99,12 +103,15 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          widget.title,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black,
-                            fontStyle: FontStyle.italic,
+                        Expanded(
+                          child: Text(
+                            widget.title,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontStyle: FontStyle.italic,
+                            ),
                           ),
                         ),
                         Row(
@@ -116,7 +123,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                                   widget.favorite =
                                       widget.favorite ? false : true;
                                   updateFavorites(
-                                      1, 3, widget.favorite, widget.saved);
+                                      widget.id, widget.favorite, widget.saved);
                                 });
                               },
                               child: widget.favorite
@@ -128,7 +135,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                                 setState(() {
                                   widget.saved = widget.saved ? false : true;
                                   updateFavorites(
-                                      1, 3, widget.favorite, widget.saved);
+                                      widget.id, widget.favorite, widget.saved);
                                 });
                               },
                               child: widget.saved
