@@ -1,16 +1,13 @@
-# esnflutter
+# eSportskeNovosti - Flutter part
 
-A new Flutter project.
+Hi everyone!
 
-## Getting Started
+This is for my university project. This repository is only for Flutter and you can find the Windows Form and API part [here](https://github.com/Comlaa/eSportskeNovosti).
 
-This project is a starting point for a Flutter application.
+## Login data
+When you first run the project, you will see that the project has seed data. Here are 3 different users that you can test the application with. I suggest using 'korisnik' on the Flutter app and 'Desktop' on the Windows Forms one.
 
-A few resources to get you started if this is your first Flutter project:
+1. desktop, pw: test
+2. mobile, pw: test
+3. korisnik, pw: test
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
