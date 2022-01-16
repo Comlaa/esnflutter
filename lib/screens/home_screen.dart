@@ -1,18 +1,15 @@
-import 'package:esnflutter/models/article.dart';
-import 'package:esnflutter/models/screen_navigation.dart';
 import 'package:esnflutter/screens/articles_screen.dart';
 import 'package:esnflutter/screens/comments_screen.dart';
 import 'package:esnflutter/screens/favorites_screen.dart';
-import 'package:esnflutter/screens/login_screen.dart';
-import 'package:esnflutter/screens/options_screen.dart';
+import 'package:esnflutter/screens/profile_screen.dart';
 import 'package:esnflutter/screens/saved_screen.dart';
+import 'package:esnflutter/screens/settings_screen.dart';
 import 'package:esnflutter/screens/signup_screen.dart';
 import 'package:esnflutter/screens/suggested_screen.dart';
-import 'package:esnflutter/widgets/article_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  static const routeName = '/dashboard';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
@@ -21,13 +18,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
-    const LoginScreen(),
+    const ProfileScreen(),
     const ArticlesScreen(),
     const FavoritesScreen(),
     const SavedScreen(),
     const CommentsScreen(),
-    const OptionsScreen(),
     const SuggestedScreen(),
+    const SettingsScreen(),
     const SignUpScreen(),
   ];
 
@@ -57,37 +54,37 @@ class _HomeScreenState extends State<HomeScreen> {
               NavigationRailDestination(
                 icon: Icon(Icons.person_outline),
                 selectedIcon: Icon(Icons.person),
-                label: Text('Profile'),
+                label: Text('Profil'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.text_snippet_sharp),
                 selectedIcon: Icon(Icons.text_snippet_sharp),
-                label: Text('News'),
+                label: Text('Članci'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.favorite_border),
                 selectedIcon: Icon(Icons.favorite),
-                label: Text('Liked'),
+                label: Text('Favoriti'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.bookmark_border),
                 selectedIcon: Icon(Icons.book),
-                label: Text('Bookmared'),
+                label: Text('Snimljeni'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.insert_comment),
                 selectedIcon: Icon(Icons.insert_comment_rounded),
-                label: Text('Comments'),
+                label: Text('Komentari'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.star_outline_outlined),
                 selectedIcon: Icon(Icons.star),
-                label: Text('Favorites'),
+                label: Text('Preporučeno'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.settings_applications_outlined),
                 selectedIcon: Icon(Icons.settings_applications),
-                label: Text('Settings'),
+                label: Text('Postavke'),
               ),
             ],
           ),

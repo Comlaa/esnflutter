@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:esnflutter/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,6 +24,13 @@ Future<http.Response> Login(String email, String password) {
       'password': password,
     }),
   );
+}
+
+Future<int> getUserId(String username) async {
+  final response = await http.get(
+      Uri.parse('https://10.0.2.2:8012/User/user-id?username=' + username));
+
+  return jsonDecode(response.body);
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -111,6 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 onTap: () async {
                   var response = await Login(email.text, password.text);
                   if (response.body.contains("true")) {
+                    var userId = await getUserId(email.text);
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    await prefs.setInt('id', userId);
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   }

@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
 
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key? key}) : super(key: key);
+class SettingsScreen extends StatefulWidget {
+  const SettingsScreen({Key? key}) : super(key: key);
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SettingsScreenState extends State<SettingsScreen> {
+  final ime = TextEditingController();
+  final prezime = TextEditingController();
   final email = TextEditingController();
-  final password = TextEditingController();
-  final confirmPassword = TextEditingController();
-  bool _passwordVisible = false;
-  bool _confirmPasswordVisible = false;
+
   @override
-  void initState() {
-    _passwordVisible = false;
-    _confirmPasswordVisible = false;
-  }
+  void initState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +26,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
               padding: EdgeInsets.only(top: 30),
               height: 100,
               child: Text(
-                "Login",
+                "Postavke",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 25,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              keyboardType: TextInputType.text,
+              controller: email,
+              decoration: InputDecoration(
+                labelText: 'Ime',
+                hintText: 'Enter your name',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: Colors.blue),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: TextField(
+              keyboardType: TextInputType.text,
+              controller: prezime,
+              decoration: InputDecoration(
+                labelText: 'Prezime',
+                hintText: 'Enter your surname',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: Colors.blue),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
             ),
@@ -58,74 +92,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10.0),
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              controller: password,
-              obscureText:
-                  !_passwordVisible, //This will obscure text dynamically
-              decoration: InputDecoration(
-                labelText: 'Password',
-                hintText: 'Enter your password',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.blue),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _passwordVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    // Update the state i.e. toogle the state of passwordVisible variable
-                    setState(() {
-                      _passwordVisible = !_passwordVisible;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10.0),
-            child: TextFormField(
-              keyboardType: TextInputType.text,
-              controller: confirmPassword,
-              obscureText:
-                  !_confirmPasswordVisible, //This will obscure text dynamically
-              decoration: InputDecoration(
-                labelText: 'Confirm password',
-                hintText: 'Please reenter password',
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.blue),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _confirmPasswordVisible
-                        ? Icons.visibility
-                        : Icons.visibility_off,
-                    color: Colors.black,
-                  ),
-                  onPressed: () {
-                    // Update the state i.e. toogle the state of passwordVisible variable
-                    setState(() {
-                      _confirmPasswordVisible = !_confirmPasswordVisible;
-                    });
-                  },
-                ),
-              ),
-            ),
-          ),
-          Padding(
             padding: const EdgeInsets.all(15.0),
             child: Center(
               child: InkWell(
@@ -139,14 +105,56 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 50,
                   child: Center(
                     child: Text(
-                      "Submit",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                      "Change",
+                      style: TextStyle(color: Colors.white, fontSize: 13),
                     ),
                   ),
                 ),
               ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 60, right: 15.0, left: 15, bottom: 5),
+            child: Center(
+              child: InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                  ),
+                  width: 350,
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      "Sign out",
+                      style: TextStyle(color: Colors.black, fontSize: 11),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(
+                top: 10, right: 15.0, left: 15, bottom: 15),
+            child: Center(
+              child: InkWell(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                  ),
+                  width: 350,
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      "Deaktiviraj account",
+                      style: TextStyle(color: Colors.black, fontSize: 11),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

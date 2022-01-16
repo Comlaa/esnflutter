@@ -1,14 +1,15 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:esnflutter/models/article.dart';
 import 'package:esnflutter/widgets/article_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<List<Widget>> getArticles() async {
-  final response = await http
-      .get(Uri.parse('https://10.0.2.2:8012/Article/articles?userId=3'));
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userId = await prefs.getInt('id');
+  final response = await http.get(Uri.parse(
+      'https://10.0.2.2:8012/Article/articles?userId=' + userId.toString()));
 
   var responseList = jsonDecode(response.body);
   List<Widget> articles = [];
