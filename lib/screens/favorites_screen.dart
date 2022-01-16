@@ -18,6 +18,7 @@ Future<List<Widget>> getArticles() async {
     for (var article in responseList) {
       var loadedArticle = Article.fromJson(article);
       articles.add(ArticleWidget(
+          loadedArticle.id,
           loadedArticle.title,
           loadedArticle.text,
           loadedArticle.tags,
@@ -78,7 +79,14 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
-                      Text("Omiljeni članci"),
+                      Text(
+                        "Omiljeni članci",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600),
+                      ),
                       Column(children: snapshot.data!),
                     ],
                   ));

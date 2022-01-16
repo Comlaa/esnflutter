@@ -1,7 +1,4 @@
 import 'dart:io';
-
-import 'package:esnflutter/screens/articles_screen.dart';
-import 'package:esnflutter/screens/home_screen.dart';
 import 'package:esnflutter/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginScreen(),
+      home: const LoginScreen(),
     );
   }
 }
