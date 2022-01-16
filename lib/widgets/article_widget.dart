@@ -1,4 +1,4 @@
-import 'package:esnflutter/screens/article_screen.dart';
+import 'package:esnflutter/screens/article_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -21,16 +21,27 @@ Future<void> updateFavorites(
 
 class ArticleWidget extends StatefulWidget {
   final String title;
+  final String text;
+  final String tags;
+  final String category;
+  final List<dynamic> articleComments;
+  final num articleRating;
+  final String comments;
   final String picture;
   bool favorite;
   bool saved;
 
   ArticleWidget(
-    this.title,
-    this.picture,
-    this.favorite,
-    this.saved,
-  );
+      this.title,
+      this.text,
+      this.tags,
+      this.category,
+      this.articleComments,
+      this.articleRating,
+      this.comments,
+      this.picture,
+      this.favorite,
+      this.saved);
 
   @override
   State<ArticleWidget> createState() => _ArticleWidgetState();
@@ -47,8 +58,19 @@ class _ArticleWidgetState extends State<ArticleWidget> {
         elevation: 10,
         child: InkWell(
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ArticleScreen()));
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ArticleDetailsScreen(
+                        widget.title,
+                        widget.text,
+                        widget.tags,
+                        widget.category,
+                        widget.articleComments,
+                        widget.articleRating,
+                        widget.comments,
+                        widget.picture,
+                        widget.favorite,
+                        widget.saved,
+                      )));
             },
             child: Container(
               decoration: BoxDecoration(
@@ -59,30 +81,14 @@ class _ArticleWidgetState extends State<ArticleWidget> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Stack(
-                    children: [
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                          ),
-                          width: size.width,
-                          height: 140,
-                          child: Image.memory(base64Decode(widget.picture),
-                              fit: BoxFit.fill)),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: Text(
-                          widget.title,
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.blue.shade400,
-                            fontStyle: FontStyle.italic,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                      ),
+                      width: size.width,
+                      height: 140,
+                      child: Image.memory(base64Decode(widget.picture),
+                          fit: BoxFit.fill)),
                   Padding(
                     padding: const EdgeInsets.only(
                       top: 5,
@@ -91,31 +97,45 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                       bottom: 5,
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              widget.favorite = widget.favorite ? false : true;
-                              updateFavorites(
-                                  1, 3, widget.favorite, widget.saved);
-                            });
-                          },
-                          child: widget.favorite
-                              ? Icon(Icons.favorite)
-                              : Icon(Icons.favorite_border),
+                        Text(
+                          widget.title,
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black,
+                            fontStyle: FontStyle.italic,
+                          ),
                         ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              widget.saved = widget.saved ? false : true;
-                              updateFavorites(
-                                  1, 3, widget.favorite, widget.saved);
-                            });
-                          },
-                          child: widget.saved
-                              ? Icon(Icons.bookmark)
-                              : Icon(Icons.bookmark_border),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  widget.favorite =
+                                      widget.favorite ? false : true;
+                                  updateFavorites(
+                                      1, 3, widget.favorite, widget.saved);
+                                });
+                              },
+                              child: widget.favorite
+                                  ? Icon(Icons.favorite)
+                                  : Icon(Icons.favorite_border),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  widget.saved = widget.saved ? false : true;
+                                  updateFavorites(
+                                      1, 3, widget.favorite, widget.saved);
+                                });
+                              },
+                              child: widget.saved
+                                  ? Icon(Icons.bookmark)
+                                  : Icon(Icons.bookmark_border),
+                            ),
+                          ],
                         ),
                       ],
                     ),

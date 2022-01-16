@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'dart:developer';
-
-import 'package:esnflutter/models/article-lite.dart';
 import 'package:esnflutter/models/article.dart';
 import 'package:esnflutter/widgets/article_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,9 +14,18 @@ Future<List<Widget>> getArticles() async {
   List<Widget> articles = [];
   if (response.statusCode == 200) {
     for (var article in responseList) {
-      var loadedArticle = ArticleLite.fromJson(article);
-      articles.add(ArticleWidget(loadedArticle.title, loadedArticle.picture,
-          loadedArticle.favorite, loadedArticle.saved));
+      var loadedArticle = Article.fromJson(article);
+      articles.add(ArticleWidget(
+          loadedArticle.title,
+          loadedArticle.text,
+          loadedArticle.tags,
+          loadedArticle.category,
+          loadedArticle.articleComments,
+          loadedArticle.articleRating,
+          loadedArticle.comments,
+          loadedArticle.picture,
+          loadedArticle.favorite,
+          loadedArticle.saved));
     }
     return articles;
   } else {
@@ -44,8 +51,9 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.only(top: 45, bottom: 25),
+        padding: EdgeInsets.only(top: 35, bottom: 25),
         width: double.infinity,
         child: Container(
           child: FutureBuilder<List<Widget>>(
@@ -69,7 +77,14 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
-                      Text("eSportskeVijesti"),
+                      Text(
+                        "eSportskeVijesti",
+                        style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w600),
+                      ),
                       Column(children: snapshot.data!),
                     ],
                   ));

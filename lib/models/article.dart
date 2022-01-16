@@ -3,8 +3,8 @@ class Article {
   final String text;
   final String tags;
   final String category;
-  final List<String> articleComments;
-  final double articleRating;
+  final List<dynamic> articleComments;
+  final num articleRating;
   final String comments;
   final String picture;
   bool favorite;
