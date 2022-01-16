@@ -1,6 +1,23 @@
 import 'package:esnflutter/screens/article_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+Future<void> updateFavorites(
+    int articleId, int userId, bool favorite, bool saved) {
+  return http.put(
+    Uri.parse('https://10.0.2.2:8012/Article/article-favorites'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'articleId': articleId,
+      'userId': userId,
+      'favorite': favorite,
+      'saved': saved,
+    }),
+  );
+}
 
 class ArticleWidget extends StatefulWidget {
   final String title;
@@ -80,6 +97,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                           onTap: () {
                             setState(() {
                               widget.favorite = widget.favorite ? false : true;
+                              updateFavorites(
+                                  1, 3, widget.favorite, widget.saved);
                             });
                           },
                           child: widget.favorite
@@ -90,6 +109,8 @@ class _ArticleWidgetState extends State<ArticleWidget> {
                           onTap: () {
                             setState(() {
                               widget.saved = widget.saved ? false : true;
+                              updateFavorites(
+                                  1, 3, widget.favorite, widget.saved);
                             });
                           },
                           child: widget.saved
