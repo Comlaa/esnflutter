@@ -188,6 +188,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 top: 60, right: 15.0, left: 15, bottom: 5),
             child: Center(
               child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey.shade300,
