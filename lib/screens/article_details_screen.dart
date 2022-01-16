@@ -1,6 +1,4 @@
 import 'dart:convert';
-import 'package:esnflutter/models/article_comments.dart';
-import 'package:esnflutter/screens/articles_screen.dart';
 import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;

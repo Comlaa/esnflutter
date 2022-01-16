@@ -1,10 +1,8 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'package:esnflutter/screens/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:esnflutter/screens/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class LoginScreen extends StatefulWidget {
@@ -68,14 +66,14 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.text,
               controller: email,
               decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'Unesite vaš email',
+                labelText: 'Korisničko ime',
+                hintText: 'Unesite vaše korisničko ime',
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(width: 3, color: Colors.blue),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderSide: const BorderSide(width: 3, color: Colors.grey),
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),

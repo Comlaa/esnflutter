@@ -47,7 +47,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderSide: const BorderSide(width: 3, color: Colors.grey),
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
@@ -66,7 +66,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderSide: const BorderSide(width: 3, color: Colors.grey),
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
@@ -85,7 +85,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderSide: const BorderSide(width: 3, color: Colors.grey),
                   borderRadius: BorderRadius.circular(15),
                 ),
               ),
