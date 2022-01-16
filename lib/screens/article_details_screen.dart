@@ -1,9 +1,29 @@
 import 'dart:convert';
 import 'package:esnflutter/models/article_comments.dart';
+import 'package:esnflutter/screens/articles_screen.dart';
 import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
+Future<http.Response> AddComment(int articleId, String comment) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userId = await prefs.getInt('id');
+  return http.put(
+    Uri.parse('https://10.0.2.2:8012/Article/article-comment'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'articleId': articleId,
+      'userId': userId,
+      'comment': comment
+    }),
+  );
+}
 
 class ArticleDetailsScreen extends StatelessWidget {
+  final int id;
   final String title;
   final String text;
   final String tags;
@@ -15,7 +35,10 @@ class ArticleDetailsScreen extends StatelessWidget {
   bool favorite;
   bool bookmark;
 
+  final komentar = TextEditingController();
+
   ArticleDetailsScreen(
+    this.id,
     this.title,
     this.text,
     this.tags,
@@ -43,7 +66,7 @@ class ArticleDetailsScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 child: InkWell(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Navigator.pop(context);
                   },
                   child: Container(
                     child: Icon(
@@ -170,6 +193,72 @@ class ArticleDetailsScreen extends StatelessWidget {
                     350,
                   ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: TextField(
+                keyboardType: TextInputType.text,
+                controller: komentar,
+                decoration: InputDecoration(
+                  labelText: 'Komentar',
+                  hintText: 'Dodajte komentar',
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: Colors.blue),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(width: 3, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(15.0),
+              child: Center(
+                child: InkWell(
+                  onTap: () async {
+                    await AddComment(id, komentar.text);
+
+                    Widget okButton = TextButton(
+                      child: Text("OK"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Operacija uspješna!"),
+                      content: Text("Vaš komentar je uspješno dodan."),
+                      actions: [
+                        okButton,
+                      ],
+                    );
+
+                    // show the dialog
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.black,
+                    ),
+                    width: 200,
+                    height: 50,
+                    child: Center(
+                      child: Text(
+                        "Dodaj komentar",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
             Container(
               height: 30,

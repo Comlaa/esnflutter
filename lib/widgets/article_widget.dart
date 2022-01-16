@@ -65,6 +65,7 @@ class _ArticleWidgetState extends State<ArticleWidget> {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => ArticleDetailsScreen(
+                        widget.id,
                         widget.title,
                         widget.text,
                         widget.tags,
