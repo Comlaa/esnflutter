@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Widget>> getArticles() async {
-  final response =
-      await http.get(Uri.parse('https://10.0.2.2:8012/Article/articles'));
+  final response = await http
+      .get(Uri.parse('https://10.0.2.2:8012/Article/articles?userId=2'));
 
   var responseList = jsonDecode(response.body);
   List<Widget> articles = [];
