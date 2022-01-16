@@ -27,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         children: [
           Center(
             child: Container(
-              padding: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: 70),
               height: 100,
               child: Text(
                 "Login",
@@ -39,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(20.0),
             child: TextField(
               keyboardType: TextInputType.text,
               controller: email,
@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(20.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               controller: password,
@@ -91,7 +91,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(20.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               controller: confirmPassword,
@@ -135,11 +135,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black,
                   ),
-                  width: 100,
+                  width: 200,
                   height: 50,
                   child: Center(
                     child: Text(
-                      "Submit",
+                      "Registruj se",
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                   ),

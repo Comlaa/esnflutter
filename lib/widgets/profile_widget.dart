@@ -13,7 +13,7 @@ class ProfileWidget extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.only(top: 35, bottom: 25),
+          padding: EdgeInsets.only(top: 55, bottom: 25),
           child: Container(
             child: Text(
               "Profil",

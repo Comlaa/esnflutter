@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:esnflutter/models/article.dart';
+import 'package:esnflutter/models/article_comments.dart';
 import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,15 +9,15 @@ Future<List<Widget>> getComments() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
   final response = await http.get(Uri.parse(
-      'https://10.0.2.2:8012/Article/articles?userId=' + userId.toString()));
+      'https://10.0.2.2:8012/Article/comments?userId=' + userId.toString()));
 
   var responseList = jsonDecode(response.body);
   List<Widget> comments = [];
   if (response.statusCode == 200) {
-    for (var article in responseList) {
-      var loadedCommnets = Article.fromJson(article);
+    for (var comment in responseList) {
+      var loadedCommnets = ArticleComments.fromJson(comment);
       comments.add(
-        CommentWidget("Test", "Moze li neki test.", 100, 300),
+        CommentWidget(loadedCommnets.name, loadedCommnets.comment, 100, 300),
       );
     }
     return comments;
@@ -46,7 +46,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
-        padding: EdgeInsets.only(top: 35, bottom: 25),
+        padding: EdgeInsets.only(top: 55, bottom: 25),
         width: double.infinity,
         child: Container(
           child: FutureBuilder<List<Widget>>(

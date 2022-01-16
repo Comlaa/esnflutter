@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'package:esnflutter/screens/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:esnflutter/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           Center(
             child: Container(
-              padding: EdgeInsets.only(top: 30),
+              padding: EdgeInsets.only(top: 70),
               height: 100,
               child: Text(
                 "Login",
@@ -62,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(20.0),
             child: TextField(
               keyboardType: TextInputType.text,
               controller: email,
@@ -81,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(20.0),
             child: TextFormField(
               keyboardType: TextInputType.text,
               controller: password,
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(width: 3, color: Colors.red),
+                  borderSide: const BorderSide(width: 3, color: Colors.grey),
                   borderRadius: BorderRadius.circular(15),
                 ),
                 suffixIcon: IconButton(
@@ -124,6 +125,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     await prefs.setInt('id', userId);
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
+                  } else {
+                    Widget okButton = TextButton(
+                      child: Text("Nazad"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Prijava neuspješna."),
+                      content: Text(
+                          "Lozinka ili korisničko ime nisu validni. Molimo pokušajte ponovo."),
+                      actions: [
+                        okButton,
+                      ],
+                    );
+
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
                   }
                 },
                 child: Container(
@@ -131,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(20),
                     color: Colors.black,
                   ),
-                  width: 100,
+                  width: 140,
                   height: 50,
                   child: Center(
                     child: Text(
@@ -142,7 +166,22 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
             ),
-          )
+          ),
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Center(
+              child: InkWell(
+                onTap: () async {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SignUpScreen()));
+                },
+                child: Text(
+                  "Nemate račun?",
+                  style: TextStyle(color: Colors.blue, fontSize: 16),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
