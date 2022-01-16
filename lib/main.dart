@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:esnflutter/screens/articles_screen.dart';
 import 'package:esnflutter/screens/home_screen.dart';
+import 'package:esnflutter/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,11 +16,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'ESN - eSportskeNovosti',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: LoginScreen(),
     );
   }
 }
