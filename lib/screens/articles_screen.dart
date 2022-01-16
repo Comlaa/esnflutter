@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<List<Widget>> getArticles() async {
-  final response =
-      await http.get(Uri.parse('https://10.0.2.2:8012/Article/articles'));
+  final response = await http
+      .get(Uri.parse('https://10.0.2.2:8012/Article/articles?userId=3'));
 
   var responseList = jsonDecode(response.body);
   List<Widget> articles = [];
@@ -22,7 +22,7 @@ Future<List<Widget>> getArticles() async {
     }
     return articles;
   } else {
-    throw Exception('Failed to load articles.');
+    throw Exception('Greška prilikom učitavanja članaka.');
   }
 }
 
@@ -47,7 +47,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
       body: Container(
         padding: EdgeInsets.only(top: 45, bottom: 25),
         width: double.infinity,
-        child: Center(
+        child: Container(
           child: FutureBuilder<List<Widget>>(
             future: articles,
             builder: (
@@ -64,7 +64,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return const Text('Error');
+                  return const Text('Greška prilikom učitavanja članaka.');
                 } else if (snapshot.hasData) {
                   return SingleChildScrollView(
                       child: Column(
@@ -74,7 +74,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     ],
                   ));
                 } else {
-                  throw Exception('Failed to display articles.');
+                  throw Exception('Greška prilikom učitavanja članaka.');
                 }
               } else {
                 throw Exception('State: ${snapshot.connectionState}');
