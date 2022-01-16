@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -7,9 +11,27 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
+Future<http.Response> Edit(String email, String username, String name) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userId = await prefs.getInt('id');
+  return http.put(
+    Uri.parse('https://10.0.2.2:8012/User/user'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'username': username,
+      'email': email,
+      'name': name,
+      'id': userId,
+      'gender': 'Musko'
+    }),
+  );
+}
+
 class _SettingsScreenState extends State<SettingsScreen> {
-  final ime = TextEditingController();
-  final prezime = TextEditingController();
+  final name = TextEditingController();
+  final username = TextEditingController();
   final email = TextEditingController();
 
   @override
@@ -38,10 +60,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.all(10.0),
             child: TextField(
               keyboardType: TextInputType.text,
-              controller: email,
+              controller: name,
               decoration: InputDecoration(
                 labelText: 'Ime',
-                hintText: 'Enter your name',
+                hintText: 'Unesite novo ime',
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(width: 3, color: Colors.blue),
                   borderRadius: BorderRadius.circular(15),
@@ -57,10 +79,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.all(10.0),
             child: TextField(
               keyboardType: TextInputType.text,
-              controller: prezime,
+              controller: username,
               decoration: InputDecoration(
-                labelText: 'Prezime',
-                hintText: 'Enter your surname',
+                labelText: 'Korisničko ime',
+                hintText: 'Unesite novi korisničko ime',
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(width: 3, color: Colors.blue),
                   borderRadius: BorderRadius.circular(15),
@@ -79,7 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               controller: email,
               decoration: InputDecoration(
                 labelText: 'Email',
-                hintText: 'Enter your email',
+                hintText: 'Unesite novi email',
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(width: 3, color: Colors.blue),
                   borderRadius: BorderRadius.circular(15),
@@ -95,7 +117,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
             padding: const EdgeInsets.all(15.0),
             child: Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () async {
+                  var response =
+                      await Edit(email.text, username.text, name.text);
+                  if (response.body.contains("true")) {
+                    Widget okButton = TextButton(
+                      child: Text("Nazad na postavke"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Promjena uspješna."),
+                      content: Text("Vratite se na postavke."),
+                      actions: [
+                        okButton,
+                      ],
+                    );
+
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  } else {
+                    Widget okButton = TextButton(
+                      child: Text("Nazad"),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    );
+
+                    AlertDialog alert = AlertDialog(
+                      title: Text("Promjena neuspješna."),
+                      content: Text("Molimo pokušajte ponovo."),
+                      actions: [
+                        okButton,
+                      ],
+                    );
+
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return alert;
+                      },
+                    );
+                  }
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
@@ -105,7 +175,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 50,
                   child: Center(
                     child: Text(
-                      "Change",
+                      "Snimi",
                       style: TextStyle(color: Colors.white, fontSize: 13),
                     ),
                   ),
@@ -126,28 +196,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   height: 50,
                   child: Center(
                     child: Text(
-                      "Sign out",
-                      style: TextStyle(color: Colors.black, fontSize: 11),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-                top: 10, right: 15.0, left: 15, bottom: 15),
-            child: Center(
-              child: InkWell(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.shade300,
-                  ),
-                  width: 350,
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      "Deaktiviraj account",
+                      "Odjavi se",
                       style: TextStyle(color: Colors.black, fontSize: 11),
                     ),
                   ),
