@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:esnflutter/models/article_comments.dart';
 import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 
@@ -163,9 +164,9 @@ class ArticleDetailsScreen extends StatelessWidget {
               children: [
                 for (var comment in articleComments)
                   CommentWidget(
-                    "Haris",
-                    "Pozdrav za dobre ljude!",
-                    150,
+                    comment["name"],
+                    comment["comment"],
+                    130,
                     350,
                   ),
               ],

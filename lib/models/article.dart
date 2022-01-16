@@ -1,3 +1,5 @@
+import 'package:esnflutter/models/article_comments.dart';
+
 class Article {
   final int id;
   final String title;
