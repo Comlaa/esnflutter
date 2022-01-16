@@ -10,6 +10,7 @@ class Article {
   final String picture;
   bool favorite;
   bool saved;
+  int rating;
 
   Article(
       {required this.id,
@@ -22,7 +23,8 @@ class Article {
       required this.comments,
       required this.picture,
       required this.favorite,
-      required this.saved});
+      required this.saved,
+      required this.rating});
 
   Article.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -35,5 +37,6 @@ class Article {
         comments = json['comments'],
         picture = json['picture'],
         favorite = json['favorite'],
-        saved = json['saved'];
+        saved = json['saved'],
+        rating = json['rating'];
 }

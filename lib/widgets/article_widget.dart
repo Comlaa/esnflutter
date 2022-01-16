@@ -33,7 +33,7 @@ class ArticleWidget extends StatefulWidget {
   final String picture;
   bool favorite;
   bool saved;
-
+  int rating;
   ArticleWidget(
       this.id,
       this.title,
@@ -45,7 +45,8 @@ class ArticleWidget extends StatefulWidget {
       this.comments,
       this.picture,
       this.favorite,
-      this.saved);
+      this.saved,
+      this.rating);
 
   @override
   State<ArticleWidget> createState() => _ArticleWidgetState();
@@ -64,18 +65,18 @@ class _ArticleWidgetState extends State<ArticleWidget> {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => ArticleDetailsScreen(
-                        widget.id,
-                        widget.title,
-                        widget.text,
-                        widget.tags,
-                        widget.category,
-                        widget.articleComments,
-                        widget.articleRating,
-                        widget.comments,
-                        widget.picture,
-                        widget.favorite,
-                        widget.saved,
-                      )));
+                      widget.id,
+                      widget.title,
+                      widget.text,
+                      widget.tags,
+                      widget.category,
+                      widget.articleComments,
+                      widget.articleRating,
+                      widget.comments,
+                      widget.picture,
+                      widget.favorite,
+                      widget.saved,
+                      widget.rating)));
             },
             child: Container(
               decoration: BoxDecoration(

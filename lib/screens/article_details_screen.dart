@@ -20,6 +20,22 @@ Future<http.Response> AddComment(int articleId, String comment) async {
   );
 }
 
+Future<http.Response> AddRating(int articleId, int rating) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var userId = await prefs.getInt('id');
+  return http.put(
+    Uri.parse('https://10.0.2.2:8012/Article/article-rating'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, dynamic>{
+      'articleId': articleId,
+      'userId': userId,
+      'rating': rating
+    }),
+  );
+}
+
 class ArticleDetailsScreen extends StatelessWidget {
   final int id;
   final String title;
@@ -32,22 +48,22 @@ class ArticleDetailsScreen extends StatelessWidget {
   final String picture;
   bool favorite;
   bool bookmark;
-
+  int rating;
   final komentar = TextEditingController();
 
   ArticleDetailsScreen(
-    this.id,
-    this.title,
-    this.text,
-    this.tags,
-    this.category,
-    this.articleComments,
-    this.articleRating,
-    this.comments,
-    this.picture,
-    this.favorite,
-    this.bookmark,
-  );
+      this.id,
+      this.title,
+      this.text,
+      this.tags,
+      this.category,
+      this.articleComments,
+      this.articleRating,
+      this.comments,
+      this.picture,
+      this.favorite,
+      this.bookmark,
+      this.rating);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -289,35 +305,40 @@ class ArticleDetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InkWell(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue.shade300,
-                  ),
-                ),
+                    onTap: () async {
+                      await addRating(context, 1);
+                    },
+                    child: rating >= 1
+                        ? Icon(Icons.star, color: Colors.blue.shade300)
+                        : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue.shade300,
-                  ),
-                ),
+                    onTap: () async {
+                      await addRating(context, 2);
+                    },
+                    child: rating >= 2
+                        ? Icon(Icons.star, color: Colors.blue.shade300)
+                        : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue.shade300,
-                  ),
-                ),
+                    onTap: () async {
+                      await addRating(context, 3);
+                    },
+                    child: rating >= 3
+                        ? Icon(Icons.star, color: Colors.blue.shade300)
+                        : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue.shade300,
-                  ),
-                ),
+                    onTap: () async {
+                      await addRating(context, 4);
+                    },
+                    child: rating >= 4
+                        ? Icon(Icons.star, color: Colors.blue.shade300)
+                        : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue.shade300,
-                  ),
-                ),
+                    onTap: () async {
+                      await addRating(context, 5);
+                    },
+                    child: rating == 5
+                        ? Icon(Icons.star, color: Colors.blue.shade300)
+                        : Icon(Icons.star_border, color: Colors.blue.shade300)),
               ],
             ),
             Container(
@@ -326,6 +347,33 @@ class ArticleDetailsScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<void> addRating(BuildContext context, int rating) async {
+    await AddRating(id, rating);
+
+    Widget okButton = TextButton(
+      child: Text("OK"),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+      title: Text("Operacija uspješna!"),
+      content: Text("Uspješno ste ocijenili artikal!"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

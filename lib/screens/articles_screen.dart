@@ -27,7 +27,8 @@ Future<List<Widget>> getArticles() async {
           loadedArticle.comments,
           loadedArticle.picture,
           loadedArticle.favorite,
-          loadedArticle.saved));
+          loadedArticle.saved,
+          loadedArticle.rating));
     }
     return articles;
   } else {
