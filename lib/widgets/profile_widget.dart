@@ -5,7 +5,7 @@ class ProfileWidget extends StatelessWidget {
   var prezime = "Mlaco";
   var email = "harismlaco@gmail.com";
   var spol;
-
+//TODO - FINISH TILL THE END OF THE DAY. napraviti backend pa povezati sve.
   ProfileWidget(this.ime, this.prezime, this.email, this.spol);
 
   @override
