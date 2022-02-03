@@ -14,7 +14,7 @@ class SignUpScreen extends StatefulWidget {
 Future<http.Response> Register(String email, String password, String username,
     String firstname, String lastname, int gender) {
   return http.post(
-    Uri.parse('https://10.0.2.2:8012/User/register'),
+    Uri.parse('http://127.0.0.1:8012/User/register'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

@@ -15,7 +15,7 @@ Future<http.Response> Edit(String email, String username, String name) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
   return http.put(
-    Uri.parse('https://10.0.2.2:8012/User/user'),
+    Uri.parse('http://127.0.0.1:8012/User/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

@@ -9,7 +9,7 @@ Future<List<Widget>> getArticles() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
   final response = await http.get(Uri.parse(
-      'https://10.0.2.2:8012/Article/favorite-articles?userId=' +
+      'http://127.0.0.1:8012/Article/favorite-articles?userId=' +
           userId.toString()));
 
   var responseList = jsonDecode(response.body);

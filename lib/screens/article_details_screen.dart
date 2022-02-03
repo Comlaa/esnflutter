@@ -8,7 +8,7 @@ Future<http.Response> AddComment(int articleId, String comment) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
   return http.put(
-    Uri.parse('https://10.0.2.2:8012/Article/article-comment'),
+    Uri.parse('http://127.0.0.1:8012/Article/article-comment'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -24,7 +24,7 @@ Future<http.Response> AddRating(int articleId, int rating) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
   return http.put(
-    Uri.parse('https://10.0.2.2:8012/Article/article-rating'),
+    Uri.parse('http://127.0.0.1:8012/Article/article-rating'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },

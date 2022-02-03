@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:esnflutter/screens/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:esnflutter/screens/home_screen.dart';
@@ -11,12 +12,13 @@ class LoginScreen extends StatefulWidget {
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
-
+final String basicAuth='Basic '+base64Encode(utf8.encode('desktop:test'));
 Future<http.Response> Login(String email, String password) {
   return http.put(
-    Uri.parse('https://10.0.2.2:8012/User/login'),
+    Uri.parse('http://127.0.0.1:8012/User/login'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader:basicAuth
     },
     body: jsonEncode(<String, String>{
       'username': email,
@@ -27,7 +29,7 @@ Future<http.Response> Login(String email, String password) {
 
 Future<int> getUserId(String username) async {
   final response = await http.get(
-      Uri.parse('https://10.0.2.2:8012/User/user-id?username=' + username));
+      Uri.parse('http://127.0.0.1:8012/User/user-id?username=' + username));
 
   return jsonDecode(response.body);
 }
