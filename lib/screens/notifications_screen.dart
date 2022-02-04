@@ -5,7 +5,8 @@ import '../services/api_service.dart';
 import '../widgets/notification_widget.dart';
 
 Future<List<Widget>> getNotifications() async {
-  final response = await ApiService.getWithUserId("Notification", "user-notifications");
+  final response =
+      await ApiService.getWithUserId("Notification", "user-notifications");
 
   var responseList = jsonDecode(response.body);
   List<Widget> notifications = [];
@@ -13,7 +14,8 @@ Future<List<Widget>> getNotifications() async {
     for (var notification in responseList) {
       var loadedNotifications = NotificationModel.fromJson(notification);
       notifications.add(
-        NotificationWidget(loadedNotifications.title, loadedNotifications.read, loadedNotifications.id),
+        NotificationWidget(loadedNotifications.title, loadedNotifications.read,
+            loadedNotifications.id),
       );
     }
     return notifications;
@@ -40,6 +42,27 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 25.0,
+          left: 30,
+          top: 30,
+        ),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: InkWell(
+            onTap: () {
+              Navigator.pop(context);
+            },
+            child: Container(
+              child: Icon(
+                Icons.arrow_back,
+                color: Colors.blue.shade300,
+              ),
+            ),
+          ),
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: Container(
         padding: EdgeInsets.only(top: 55, bottom: 25),
