@@ -1,40 +1,46 @@
 import 'dart:convert';
+import 'dart:html';
+import 'package:esnflutter/models/article_comments.dart';
+import 'package:esnflutter/models/fixture_model.dart';
+import 'package:esnflutter/widgets/comment_widget.dart';
+import 'package:esnflutter/widgets/fixture_widget.dart';
 import 'package:flutter/material.dart';
-import '../models/notification_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../services/api_service.dart';
-import '../widgets/notification_widget.dart';
 
-Future<List<Widget>> getNotifications() async {
-  final response = await ApiService.getWithUserId("Notification", "user-notifications");
-
+Future<List<Widget>> getfixtures() async {
+  final response = await ApiService.get("Fixture", "fixtures");
+  
   var responseList = jsonDecode(response.body);
-  List<Widget> notifications = [];
+  List<Widget> fixtures = [];
   if (response.statusCode == 200) {
-    for (var notification in responseList) {
-      var loadedNotifications = NotificationModel.fromJson(notification);
-      notifications.add(
-        NotificationWidget(loadedNotifications.title, loadedNotifications.read, loadedNotifications.id),
+    for (var comment in responseList) {
+      var loadedFixtures = FixtureModel.fromJson(comment);
+      fixtures.add(
+        FixtureWidget(loadedFixtures.team1, loadedFixtures.team2, loadedFixtures.result, loadedFixtures.matchTime, loadedFixtures.categoryName)
       );
     }
-    return notifications;
+    return fixtures;
   } else {
-    throw Exception('Greška prilikom učitavanja komentara.');
+    throw Exception('Greška prilikom učitavanja rezultata.');
   }
 }
 
-class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({Key? key}) : super(key: key);
+class FixturesScreen extends StatefulWidget {
+  const FixturesScreen({Key? key}) : super(key: key);
 
   @override
-  _NotificationsScreenState createState() => _NotificationsScreenState();
+  _FixturesScreenState createState() => _FixturesScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
-  Future<List<Widget>> notifications = getNotifications();
+class _FixturesScreenState extends State<FixturesScreen> {
+  Future<List<Widget>> fixtures = getfixtures();
   @override
   initState() {
     super.initState();
-    notifications = getNotifications();
+    fixtures = getfixtures();
   }
 
   @override
@@ -46,7 +52,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         width: double.infinity,
         child: Container(
           child: FutureBuilder<List<Widget>>(
-            future: notifications,
+            future: fixtures,
             builder: (
               context,
               snapshot,
@@ -61,13 +67,13 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasError) {
-                  return const Text('Greška prilikom učitavanja notifikacija.');
+                  return const Text('Greška prilikom učitavanja rezultata.');
                 } else if (snapshot.hasData) {
                   return SingleChildScrollView(
                       child: Column(
                     children: [
                       Text(
-                        "Notifikacije",
+                        "Rezultati",
                         style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,
@@ -78,7 +84,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                     ],
                   ));
                 } else {
-                  return const Text('Nemate aktivnih notifikacija.');
+                  return const Text('Nema aktivnih rezultata.');
                 }
               } else {
                 throw Exception('State: ${snapshot.connectionState}');

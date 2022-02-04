@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:esnflutter/screens/home_screen.dart';
 import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -41,7 +42,7 @@ Future<http.Response> AddRating(int articleId, int rating) async {
   );
 }
 
-class ArticleDetailsScreen extends StatelessWidget {
+class ArticleDetailsScreen extends StatefulWidget {
   final int id;
   final String title;
   final String text;
@@ -54,7 +55,6 @@ class ArticleDetailsScreen extends StatelessWidget {
   bool favorite;
   bool bookmark;
   int rating;
-  final komentar = TextEditingController();
 
   ArticleDetailsScreen(
       this.id,
@@ -69,6 +69,14 @@ class ArticleDetailsScreen extends StatelessWidget {
       this.favorite,
       this.bookmark,
       this.rating);
+
+  @override
+  State<ArticleDetailsScreen> createState() => _ArticleDetailsScreenState();
+}
+
+class _ArticleDetailsScreenState extends State<ArticleDetailsScreen> {
+  final komentar = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,13 +110,13 @@ class ArticleDetailsScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    title,
+                    widget.title,
                     style: TextStyle(fontSize: 25),
                   ),
                   Row(
                     children: [
                       Text(
-                        articleRating.toString(),
+                        widget.articleRating.toString(),
                         style: TextStyle(
                           fontSize: 25,
                           color: Colors.blue.shade300,
@@ -142,7 +150,7 @@ class ArticleDetailsScreen extends StatelessWidget {
               height: 250,
               width: 350,
               child: Text(
-                text,
+                widget.text,
               ),
             ),
             Container(
@@ -174,7 +182,8 @@ class ArticleDetailsScreen extends StatelessWidget {
             Container(
               width: 300,
               height: 200,
-              child: Image.memory(base64Decode(picture), fit: BoxFit.fill),
+              child:
+                  Image.memory(base64Decode(widget.picture), fit: BoxFit.fill),
             ),
             Container(
               height: 30,
@@ -204,7 +213,7 @@ class ArticleDetailsScreen extends StatelessWidget {
             ),
             Column(
               children: [
-                for (var comment in articleComments)
+                for (var comment in widget.articleComments)
                   CommentWidget(
                     comment["name"],
                     comment["comment"],
@@ -237,12 +246,15 @@ class ArticleDetailsScreen extends StatelessWidget {
               child: Center(
                 child: InkWell(
                   onTap: () async {
-                    await addComment(id, komentar.text);
+                    await addComment(widget.id, komentar.text);
 
                     Widget okButton = TextButton(
                       child: Text("OK"),
                       onPressed: () {
                         Navigator.pop(context);
+                        Navigator.pop(context);
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => HomeScreen()));
                       },
                     );
 
@@ -313,35 +325,35 @@ class ArticleDetailsScreen extends StatelessWidget {
                     onTap: () async {
                       await addRating(context, 1);
                     },
-                    child: rating >= 1
+                    child: widget.rating >= 1
                         ? Icon(Icons.star, color: Colors.blue.shade300)
                         : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
                     onTap: () async {
                       await addRating(context, 2);
                     },
-                    child: rating >= 2
+                    child: widget.rating >= 2
                         ? Icon(Icons.star, color: Colors.blue.shade300)
                         : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
                     onTap: () async {
                       await addRating(context, 3);
                     },
-                    child: rating >= 3
+                    child: widget.rating >= 3
                         ? Icon(Icons.star, color: Colors.blue.shade300)
                         : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
                     onTap: () async {
                       await addRating(context, 4);
                     },
-                    child: rating >= 4
+                    child: widget.rating >= 4
                         ? Icon(Icons.star, color: Colors.blue.shade300)
                         : Icon(Icons.star_border, color: Colors.blue.shade300)),
                 InkWell(
                     onTap: () async {
                       await addRating(context, 5);
                     },
-                    child: rating == 5
+                    child: widget.rating == 5
                         ? Icon(Icons.star, color: Colors.blue.shade300)
                         : Icon(Icons.star_border, color: Colors.blue.shade300)),
               ],
@@ -356,12 +368,15 @@ class ArticleDetailsScreen extends StatelessWidget {
   }
 
   Future<void> addRating(BuildContext context, int rating) async {
-    await AddRating(id, rating);
+    await AddRating(widget.id, rating);
 
     Widget okButton = TextButton(
       child: Text("OK"),
       onPressed: () {
         Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => HomeScreen()));
       },
     );
 
