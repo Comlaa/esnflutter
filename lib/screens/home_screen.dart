@@ -1,6 +1,7 @@
 import 'package:esnflutter/screens/articles_screen.dart';
 import 'package:esnflutter/screens/comments_screen.dart';
 import 'package:esnflutter/screens/favorites_screen.dart';
+import 'package:esnflutter/screens/fixtures_screen.dart';
 import 'package:esnflutter/screens/notifications_screen.dart';
 import 'package:esnflutter/screens/profile_screen.dart';
 import 'package:esnflutter/screens/saved_screen.dart';
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
     const SavedScreen(),
     const CommentsScreen(),
     const SuggestedScreen(),
+    const FixturesScreen(),
     const SettingsScreen(),
     const SignUpScreen(),
   ];
@@ -47,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             shape: CircleBorder(), primary: Colors.blue.shade400),
       ),
       body: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           NavigationRail(
             groupAlignment: -0.4,
@@ -93,6 +95,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 icon: Icon(Icons.star_outline_outlined),
                 selectedIcon: Icon(Icons.star),
                 label: Text('Preporučeno'),
+              ),
+              NavigationRailDestination(
+                icon: Icon(Icons.sports_baseball_outlined),
+                selectedIcon: Icon(Icons.sports_baseball),
+                label: Text('Rezultati'),
               ),
               NavigationRailDestination(
                 icon: Icon(Icons.settings_applications_outlined),
