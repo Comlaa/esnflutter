@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:esnflutter/screens/article_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -7,10 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 Future<void> updateFavorites(int articleId, bool favorite, bool saved) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
+  var basicAuth = await prefs.getString('basicAuth');
   http.put(
     Uri.parse('http://127.0.0.1:8012/Article/article-favorites'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: basicAuth!
     },
     body: jsonEncode(<String, dynamic>{
       'articleId': articleId,

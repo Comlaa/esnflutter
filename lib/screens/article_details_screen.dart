@@ -1,16 +1,19 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<http.Response> AddComment(int articleId, String comment) async {
+Future<http.Response> addComment(int articleId, String comment) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
+  var basicAuth = await prefs.getString('basicAuth');
   return http.put(
     Uri.parse('http://127.0.0.1:8012/Article/article-comment'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: basicAuth!
     },
     body: jsonEncode(<String, dynamic>{
       'articleId': articleId,
@@ -23,10 +26,12 @@ Future<http.Response> AddComment(int articleId, String comment) async {
 Future<http.Response> AddRating(int articleId, int rating) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
+  var basicAuth = await prefs.getString('basicAuth');
   return http.put(
     Uri.parse('http://127.0.0.1:8012/Article/article-rating'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: basicAuth!
     },
     body: jsonEncode(<String, dynamic>{
       'articleId': articleId,
@@ -232,7 +237,7 @@ class ArticleDetailsScreen extends StatelessWidget {
               child: Center(
                 child: InkWell(
                   onTap: () async {
-                    await AddComment(id, komentar.text);
+                    await addComment(id, komentar.text);
 
                     Widget okButton = TextButton(
                       child: Text("OK"),

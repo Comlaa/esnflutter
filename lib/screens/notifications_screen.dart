@@ -5,12 +5,10 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/notification_model.dart';
+import '../services/api_service.dart';
 
 Future<List<Widget>> getNotifications() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var userId = await prefs.getInt('id');
-  final response = await http.get(Uri.parse(
-      'http://127.0.0.1:8012/Notification/user-notifications?userId=' + userId.toString()));
+  final response = await ApiService.getWithUserId("Notification", "user-notifications");
 
   var responseList = jsonDecode(response.body);
   List<Widget> notifications = [];
