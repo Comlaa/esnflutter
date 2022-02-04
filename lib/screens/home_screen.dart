@@ -1,6 +1,7 @@
 import 'package:esnflutter/screens/articles_screen.dart';
 import 'package:esnflutter/screens/comments_screen.dart';
 import 'package:esnflutter/screens/favorites_screen.dart';
+import 'package:esnflutter/screens/notifications_screen.dart';
 import 'package:esnflutter/screens/profile_screen.dart';
 import 'package:esnflutter/screens/saved_screen.dart';
 import 'package:esnflutter/screens/settings_screen.dart';
@@ -32,6 +33,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: ElevatedButton(
+        onPressed: () {
+          Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => NotificationsScreen()));
+        },
+        child: Icon(
+          Icons.circle_notifications,
+          color: Colors.white,
+          size: 50.0,
+        ),
+        style: ElevatedButton.styleFrom(
+            shape: CircleBorder(), primary: Colors.blue.shade400),
+      ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[

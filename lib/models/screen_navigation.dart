@@ -8,4 +8,5 @@ enum ScreenNavigation {
   savedScreen,
   signupScreen,
   suggestedScreen,
+  NotificationsScreen
 }
