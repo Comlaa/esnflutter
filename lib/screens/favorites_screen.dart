@@ -1,17 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:esnflutter/models/article.dart';
+import 'package:esnflutter/services/api_service.dart';
 import 'package:esnflutter/widgets/article_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<List<Widget>> getArticles() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var userId = await prefs.getInt('id');
-  final response = await http.get(Uri.parse(
-      'http://127.0.0.1:8012/Article/favorite-articles?userId=' +
-          userId.toString()));
-
+  final response = await ApiService.getWithUserId("Article", "favorite-articles");
+  
   var responseList = jsonDecode(response.body);
   List<Widget> articles = [];
   if (response.statusCode == 200) {

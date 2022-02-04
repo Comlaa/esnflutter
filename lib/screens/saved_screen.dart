@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../services/api_service.dart';
+
 Future<List<Widget>> getArticles() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var userId = await prefs.getInt('id');
-  final response = await http.get(Uri.parse(
-      'http://127.0.0.1:8012/Article/saved-articles?userId=' +
-          userId.toString()));
+  final response = await ApiService.getWithUserId("Article", "saved-articles");
 
   var responseList = jsonDecode(response.body);
   List<Widget> articles = [];

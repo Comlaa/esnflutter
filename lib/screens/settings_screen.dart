@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -14,10 +15,12 @@ class SettingsScreen extends StatefulWidget {
 Future<http.Response> Edit(String email, String username, String name) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userId = await prefs.getInt('id');
+  var basicAuth = await prefs.getString('basicAuth');
   return http.put(
     Uri.parse('http://127.0.0.1:8012/User/user'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
+      HttpHeaders.authorizationHeader: basicAuth!
     },
     body: jsonEncode(<String, dynamic>{
       'username': username,

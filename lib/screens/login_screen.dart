@@ -29,7 +29,10 @@ Future<http.Response> Login(String email, String password) {
 
 Future<int> getUserId(String username) async {
   final response = await http.get(
-      Uri.parse('http://127.0.0.1:8012/User/user-id?username=' + username));
+      Uri.parse('http://127.0.0.1:8012/User/user-id?username=' + username),
+      headers: <String, String> {
+        HttpHeaders.authorizationHeader:basicAuth
+      });
 
   return jsonDecode(response.body);
 }
@@ -123,6 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     SharedPreferences prefs =
                         await SharedPreferences.getInstance();
                     await prefs.setInt('id', userId);
+                    await prefs.setString('basicAuth', basicAuth);
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => HomeScreen()));
                   } else {
