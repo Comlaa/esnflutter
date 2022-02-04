@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'package:esnflutter/widgets/comment_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
 import '../models/notification_model.dart';
 import '../services/api_service.dart';
+import '../widgets/notification_widget.dart';
 
 Future<List<Widget>> getNotifications() async {
   final response = await ApiService.getWithUserId("Notification", "user-notifications");
@@ -16,7 +13,7 @@ Future<List<Widget>> getNotifications() async {
     for (var notification in responseList) {
       var loadedNotifications = NotificationModel.fromJson(notification);
       notifications.add(
-        CommentWidget(loadedNotifications.title, "read", 100, 200),
+        NotificationWidget(loadedNotifications.title, loadedNotifications.read, loadedNotifications.id),
       );
     }
     return notifications;
