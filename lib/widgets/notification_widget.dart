@@ -73,7 +73,7 @@ class _NotificationWidgetState extends State<NotificationWidget> {
                   child: InkWell(
                     onTap: () async {
                       var wait = await MarkNotificationAsRead(widget.notificationId);
-                      Navigator.pop(context);  // pop current page
+                      Navigator.pop(context);
                       Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => NotificationsScreen()));
                     },
